@@ -1,0 +1,39 @@
+  .cones {
+      width: 240px;
+      margin: 0 auto;
+      background-color: #fdd000;
+      border-style: solid;
+      border-width: medium;
+      border-color: #ff0000;
+  }
+  
+  .cone_line {
+      margin: 0 auto;
+      border-style: dashed;
+  }
+  
+  .button-commit {
+      margin: 0 auto;
+      display: none;
+  }
+  
+  .cone {
+      display: inline-block;
+      border-style: solid;
+      border-width: medium;
+      background: url("https://cdn0.iconfinder.com/data/icons/elite-outdoors-nature/513/pine-cone-48.png") no-repeat;
+      width: 35px;
+      height: 50px;
+  }
+  
+  .chosen-cone {
+      background-color: #ff0000;
+  }
+  
+  .removed-cone {
+      visibility: hidden;
+  }
+  
+  .chosen-line {
+      border-color: #ff0000;
+  }
