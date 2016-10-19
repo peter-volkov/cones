@@ -186,8 +186,8 @@ changeLogo = function() {
 changeLogo();
 
 $(".button-replay").on("click", function(event) {
-    $('.game-result-container').hide();
-    $('.game-container').show();
+    //$('.game-result-container').hide();
+    //$('.game-container').show();
     //FIXME
     location.reload();
 });
