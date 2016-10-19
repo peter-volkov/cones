@@ -3,16 +3,30 @@
       margin: 0 auto;
   }
   
-  .cone_line {
+  .cone-line {
       margin: 0 auto;
  
   }
   
   .button-commit {
       margin: 0 auto;
-      display: none;
+      display: block;
+      visibility: hidden;
   }
-  
+
+
+  .button-game-against-computer {
+      margin: 0 auto;
+      display: block;
+      visibility: visible;
+  }
+
+  .button-game-against-human {
+      margin: 0 auto;
+      display: block;
+      visibility: visible;
+  }
+ 
   .cone {
       display: inline-block;
       background: url("https://cdn0.iconfinder.com/data/icons/elite-outdoors-nature/513/pine-cone-48.png") no-repeat;
@@ -36,6 +50,23 @@
       margin: 0 auto;
   }
 
+  .start-container {
+      padding-top: 100px;
+      width: 600px;
+      margin: 0 auto;
+  }
+
+  .game-container { 
+      padding-top: 100px; 
+      display: none;
+      /*width: 600px;
+      margin: 0 auto;*/
+  }
+
+  .start-buttons-container {
+      padding-top: 50px;
+
+  }
   footer {
       width: 250px;
       padding-top: 20%;

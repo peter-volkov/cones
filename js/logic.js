@@ -1,30 +1,72 @@
-$(".cone_line").each(function() {
+$(".cone-line").each(function() {
     $(this).prop('numberOfChosenCones', 0);
 });
+
+function getRandomElements(arr, n) {
+    var result = new Array(n),
+        len = arr.length,
+        taken = new Array(len);
+    if (n > len)
+        throw new RangeError("getRandom: more elements taken than available");
+    while (n--) {
+        var x = Math.floor(Math.random() * len);
+        result[n] = arr[x in taken ? taken[x] : x];
+        taken[x] = --len;
+    }
+    return result;
+}
+
+var isGameAgainstComputer = false;
+var isLastTurnMadeByFirstPlayer = false;
+
+doRandomTurn = function() {
+    var randomLine = null;
+    do {
+        randomLineIndex = Math.floor(Math.random() * 5); 
+        randomLine = $('.cone-line').eq(randomLineIndex);
+    } while (randomLine.hasClass('removed-line')); 
+
+    numberOfRemovedLines = $(".removed-line").length;
+    numberOfRemovedCones = $(".removed-cone").length;
+    numberOfRemainingCones = 5 - numberOfRemovedCones;
+    numberOfRemovedConesInLine = randomLine.find('.removed-cone').length;
+
+    numberOfConesToChose = Math.max(1, Math.floor(Math.random() * numberOfRemainingCones));
+    remainingCones = randomLine.find('.cone').not('.removed-cone').not('.chosen-cone');
+
+    var randomCones = getRandomElements(remainingCones, numberOfConesToChose);
+    
+    for (i = 0; i < randomCones.length; i += 1) { 
+        coneClick($(randomCones[i]));
+    }
+
+    timeout = 1000;
+    setTimeout(function() {commit(); isLastTurnMadeByFirstPlayer = false;}, timeout);      
+}
 
 getRemovedAndChosenConesSum = function() {
     return $(".removed-cone").length + $('.chosen-cone').length;
 }
 
-$(".cone").on("click", function(event) {
+coneClick = function(cone) {
 
-    var thisLine = $(this).parent();
+    var thisLine = cone.parent();
     numberOfCHosenCones = thisLine.prop('numberOfChosenCones');
 
-    //getRemovedAndChosenConesSum check to avoid removing last cone
-    if (!$(this).hasClass('chosen-cone')) {
-        //getRemovedAndChosenConesSum check to avoid removing last cone
+    if (!cone.hasClass('chosen-cone')) {
+        //check to avoid removing last cone
         if (getRemovedAndChosenConesSum() != 24) {
-            $(this).addClass('chosen-cone');
+            cone.addClass('chosen-cone');
             thisLine.prop('numberOfChosenCones', numberOfCHosenCones + 1);
         }
     } else {
-        $(this).removeClass('chosen-cone');
+        cone.removeClass('chosen-cone');
         thisLine.prop('numberOfChosenCones', numberOfCHosenCones - 1);
     }
 
+
     //deselect other lines and their cones if they are chosen
-    $(".cone_line.chosen-line").each(function() {
+    $(".cone-line.chosen-line").each(function() {
         if (thisLine[0] != $(this)[0]) {
             $(this).removeClass('chosen-line');
             $(this).find('.cone').each(function() {
@@ -35,10 +77,10 @@ $(".cone").on("click", function(event) {
                 }
             });
         }
-        if ($(this).prop('numberOfChosenCones') == 0) {
-            if ($(this).hasClass('chosen-line')) {
-                $(this).removeClass('chosen-line')
-                $(".button-commit").css('display', 'none');
+        if (cone.prop('numberOfChosenCones') == 0) {
+            if (cone.hasClass('chosen-line')) {
+                cone.removeClass('chosen-line')
+                $(".button-commit").css('visibility', 'hidden');
             }
         }
     });
@@ -46,13 +88,21 @@ $(".cone").on("click", function(event) {
     if (thisLine.prop('numberOfChosenCones') > 0) {
         if (!thisLine.hasClass('chosen-line')) {
             thisLine.addClass('chosen-line');
-            $(".button-commit").css('display', 'block');
+            if (!isGameAgainstComputer) {
+                $(".button-commit").css('visibility', 'visible');
+            }
         }
     }
+}
 
+$(".cone").on("click", function(event) {    
+    if (!isGameAgainstComputer || (isGameAgainstComputer && !isLastTurnMadeByFirstPlayer)) {
+        cone = $(this);
+        coneClick(cone);
+    }
 });
 
-$(".button-commit").on("click", function(event) {
+commit = function() {
     changeLogo();
     $(".cone").each(function() {
         if ($(this).hasClass('chosen-cone')) {
@@ -60,24 +110,54 @@ $(".button-commit").on("click", function(event) {
             $(this).removeClass('chosen-cone');
             thisLine = $(this).parent();
             thisLine.prop('numberOfChosenCones', 0);
+            numberOfRemovedCones = thisLine.find('.removed-cone').length;
+            thisLine.prop('numberOfRemovedCones', numberOfRemovedCones);
+            if (numberOfRemovedCones == 5) {
+                thisLine.addClass('removed-line');
+            }
             thisLine.removeClass('chosen-line');
-            $(".button-commit").css('display', 'none');
+            $(".button-commit").css('visibility', 'hidden');
         }
     });
     if ($(".removed-cone").length == 24) {
-        $('.cones').html("Проиграл! Иди за дровами");
+        if (isLastTurnMadeByFirstPlayer) {
+            if (isGameAgainstComputer) {
+                $('.cones').html("Победа! Проигравший идёт за дровами.");
+            } else {
+                $('.cones').html("Победа первого игрока! Проигравший идёт за дровами.");
+            }
+        } else {
+            if (isGameAgainstComputer) {
+                $('.cones').html("Поражение! Проигравший идёт за дровами.");
+            } else {
+                $('.cones').html("Победа второго игрока! Проигравший идёт за дровами.");
+            }
+        }
     };
+}
+
+$(".button-commit").on("click", function(event) {
+    commit();
+    isLastTurnMadeByFirstPlayer = !isLastTurnMadeByFirstPlayer;
+    if (isLastTurnMadeByFirstPlayer) {
+        $(".button-commit").html('Второй игрок: cделать ход');   
+    } else {
+        $(".button-commit").html('Первый игрок: cделать ход');   
+    }
+
+    if (isGameAgainstComputer) {
+        timeout = 1000;
+        setTimeout(function() {doRandomTurn();}, timeout);          
+    }
 });
-
-
 
 changeLogo = function() {
     images = [
-        'images/elves_no_cones_reduced_friend.png',
-        'images/elves_no_cones_reduced_hell.png',
-        'images/elves_no_cones_reduced_finger.png',
-        'images/elves_no_cones_reduced_count.png',
-        'images/elves_no_cones_reduced_rails.png'
+        'images/phrases/friend.png',
+        'images/phrases/hell.png',
+        'images/phrases/finger.png',
+        'images/phrases/count.png',
+        'images/phrases/rails.png'
     ]
     randomImageIndex = Math.round(Math.random() * 100) % images.length;
     randomImageUrl = images[randomImageIndex];
@@ -85,3 +165,16 @@ changeLogo = function() {
 }
 
 changeLogo();
+
+$(".button-game-against-computer").on("click", function(event) {
+    isGameAgainstComputer = true;
+    $('.start-container').hide();
+    $('.game-container').show();
+});
+
+$(".button-game-against-human").on("click", function(event) {
+    isGameAgainstComputer = false;
+    $('.start-container').hide();
+    $('.game-container').show();
+});
+
