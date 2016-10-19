@@ -83,12 +83,12 @@ coneClick = function(cone) {
                 $(".button-commit").css('visibility', 'hidden');
             }
         }
-    });
+    });  
 
     if (thisLine.prop('numberOfChosenCones') > 0) {
         if (!thisLine.hasClass('chosen-line')) {
             thisLine.addClass('chosen-line');
-            if (!isGameAgainstComputer) {
+            if (!isGameAgainstComputer || (isGameAgainstComputer && !isLastTurnMadeByFirstPlayer)) {
                 $(".button-commit").css('visibility', 'visible');
             }
         }
@@ -120,7 +120,7 @@ commit = function() {
         }
     });
     if ($(".removed-cone").length == 24) {
-        if (isLastTurnMadeByFirstPlayer) {
+        if (!isLastTurnMadeByFirstPlayer) {
             if (isGameAgainstComputer) {
                 $('.cones').html("Победа! Проигравший идёт за дровами.");
             } else {
@@ -139,10 +139,12 @@ commit = function() {
 $(".button-commit").on("click", function(event) {
     commit();
     isLastTurnMadeByFirstPlayer = !isLastTurnMadeByFirstPlayer;
-    if (isLastTurnMadeByFirstPlayer) {
-        $(".button-commit").html('Второй игрок: cделать ход');   
-    } else {
-        $(".button-commit").html('Первый игрок: cделать ход');   
+    if (!isGameAgainstComputer) { 
+        if (isLastTurnMadeByFirstPlayer) {
+            $(".button-commit").html('Второй игрок: cделать ход');   
+        } else {
+            $(".button-commit").html('Первый игрок: cделать ход');   
+        }
     }
 
     if (isGameAgainstComputer) {
@@ -168,6 +170,7 @@ changeLogo();
 
 $(".button-game-against-computer").on("click", function(event) {
     isGameAgainstComputer = true;
+    $(".button-commit").html('Cделать ход');   
     $('.start-container').hide();
     $('.game-container').show();
 });
