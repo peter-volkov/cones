@@ -12,10 +12,12 @@ $(".cone").on("click", function(event) {
     numberOfCHosenCones = thisLine.prop('numberOfChosenCones');
 
     //getRemovedAndChosenConesSum check to avoid removing last cone
-    if (!$(this).hasClass('chosen-cone') && getRemovedAndChosenConesSum() != 24) {
-        $(this).addClass('chosen-cone');
-        thisLine.prop('numberOfChosenCones', numberOfCHosenCones + 1);
-
+    if (!$(this).hasClass('chosen-cone')) {
+        //getRemovedAndChosenConesSum check to avoid removing last cone
+        if (getRemovedAndChosenConesSum() != 24) {
+            $(this).addClass('chosen-cone');
+            thisLine.prop('numberOfChosenCones', numberOfCHosenCones + 1);
+        }
     } else {
         $(this).removeClass('chosen-cone');
         thisLine.prop('numberOfChosenCones', numberOfCHosenCones - 1);
@@ -66,6 +68,7 @@ $(".button-commit").on("click", function(event) {
         $('.cones').html("Проиграл! Иди за дровами");
     };
 });
+
 
 
 changeLogo = function() {
