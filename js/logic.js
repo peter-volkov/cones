@@ -173,6 +173,7 @@ changeLogo = function() {
     images = [
         'images/phrases/friend.png',
         'images/phrases/hell.png',
+        'images/phrases/angry_elves.png',
         'images/phrases/finger.png',
         'images/phrases/count.png',
         'images/phrases/rails.png'
