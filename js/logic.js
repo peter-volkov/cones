@@ -45,6 +45,7 @@ $(".cone").on("click", function(event) {
 });
 
 $(".button-commit").on("click", function(event) {
+    changeLogo();
     $(".cone").each(function() {
         if ($(this).hasClass('chosen-cone')) {
             $(this).addClass('removed-cone');
@@ -58,3 +59,17 @@ $(".button-commit").on("click", function(event) {
         $('.cones').html("Проиграл! Иди за дровами");
     };
 });
+
+
+changeLogo = function() {
+    images = [
+        'images/elves_no_cones_reduced_friend.png',
+        'images/elves_no_cones_reduced_hell.png',
+        'images/elves_no_cones_reduced_rails.png'
+    ]
+    randomImageIndex = Math.round(Math.random() * 100) % images.length;
+    randomImageUrl = images[randomImageIndex];
+    $('.logo').attr('src', randomImageUrl);
+}
+
+changeLogo()
