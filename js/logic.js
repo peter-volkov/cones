@@ -2,11 +2,17 @@ $(".cone_line").each(function() {
     $(this).prop('numberOfChosenCones', 0);
 });
 
+getRemovedAndChosenConesSum = function() {
+    return $(".removed-cone").length + $('.chosen-cone').length;
+}
+
 $(".cone").on("click", function(event) {
 
     var thisLine = $(this).parent();
     numberOfCHosenCones = thisLine.prop('numberOfChosenCones');
-    if (!$(this).hasClass('chosen-cone')) {
+
+    //getRemovedAndChosenConesSum check to avoid removing last cone
+    if (!$(this).hasClass('chosen-cone') && getRemovedAndChosenConesSum() != 24) {
         $(this).addClass('chosen-cone');
         thisLine.prop('numberOfChosenCones', numberOfCHosenCones + 1);
 
@@ -49,6 +55,7 @@ $(".button-commit").on("click", function(event) {
     $(".cone").each(function() {
         if ($(this).hasClass('chosen-cone')) {
             $(this).addClass('removed-cone');
+            $(this).removeClass('chosen-cone');
             thisLine = $(this).parent();
             thisLine.prop('numberOfChosenCones', 0);
             thisLine.removeClass('chosen-line');
@@ -65,6 +72,8 @@ changeLogo = function() {
     images = [
         'images/elves_no_cones_reduced_friend.png',
         'images/elves_no_cones_reduced_hell.png',
+        'images/elves_no_cones_reduced_finger.png',
+        'images/elves_no_cones_reduced_count.png',
         'images/elves_no_cones_reduced_rails.png'
     ]
     randomImageIndex = Math.round(Math.random() * 100) % images.length;
@@ -72,4 +81,4 @@ changeLogo = function() {
     $('.logo').attr('src', randomImageUrl);
 }
 
-changeLogo()
+changeLogo();
