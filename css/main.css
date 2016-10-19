@@ -9,22 +9,32 @@
   }
   
   .button-commit {
-      margin: 0 auto;
+      margin: 20px auto;
+      padding: 20px;
       display: block;
       visibility: hidden;
+      border-radius: 12px;
   }
 
 
   .button-game-against-computer {
-      margin: 0 auto;
-      display: block;
-      visibility: visible;
+      margin: 20px auto;
+      float: right;
+      display: inline-block;
+      visibility: visible;    
+      padding: 10px;
+      border-radius: 12px;
+      min-width: 220px;
   }
 
   .button-game-against-human {
-      margin: 0 auto;
-      display: block;
+      margin: 20px auto;
+      float: left;
+      display: inline-block;
       visibility: visible;
+      padding: 10px;
+      border-radius: 12px;
+      min-width: 220px;
   }
  
   .cone {
@@ -64,9 +74,31 @@
   }
 
   .start-buttons-container {
-      padding-top: 50px;
-
+      padding-top: 20px;
+      width: 500px;
+      margin: 0 auto;
   }
+
+  .game-result-container {
+      width: 600px;
+      margin: 0 auto;
+      padding-top: 100px; 
+      display: none;
+  }
+
+  .game-result-message {
+      width: 400px;
+      margin: 0 auto;
+      display: block;
+  }
+ 
+  .button-replay {
+      margin: 20px auto;
+      padding: 20px; 
+      display: block;
+      border-radius: 12px;
+  }
+
   footer {
       width: 250px;
       padding-top: 20%;

@@ -1,85 +1,83 @@
 <!doctype html>
 <html>
-    <head>
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    </head>
-    
-    <body>
-        <div class="start-container">
-            <img class="start-logo" src="images/start_logo.png">
-            <div class="rules-container">
-            <p><span>Игра в шишки <a href="http://www.e-reading.club/chapter.php/90882/38/Djonny_-_Skazki_temnogo_lesa.html">описана</a> Грибными Эльфами в кнгиге <a href="http://mushroomelves.ru/library/">Сказки тёмного леса</a>.</span></p> 
+   <head>
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/main.css"/>
+   </head>
+   <body>
+      <div class="start-container">
+         <img class="start-logo" src="images/start_logo.png">
+         <div class="rules-container">
+            <p><span>Игра в шишки <a href="http://www.e-reading.club/chapter.php/90882/38/Djonny_-_Skazki_temnogo_lesa.html">описана</a> Грибными Эльфами в кнгиге <a href="http://mushroomelves.ru/library/">Сказки тёмного леса</a>.</span></p>
             <span>На поле 5 рядов по 5 шишек. </span> 
             <p><span>Игроки по очереди берут из любого </span>
-            <span>горизонтального ряда любое количество шишек.</span></p> 
+               <span>горизонтального ряда любое количество шишек.</span>
+            </p>
             <span>Кому осталась последняя шишка - проиграл.</span> 
+         </div>
+         <div class="game-type-selection-buttons-container">
+            <div class="start-buttons-container">
+               <button class="button-game-against-computer">
+               Игра против компьютера
+               </button>
+               <button class="button-game-against-human">
+               Игра на двоих
+               </button>
             </div>
-            <div class="game-type-selection-buttons-container">
-
-        <div class="start-buttons-container">
-        <button class="button-game-against-computer">
-            Игра против компьютера
-        </button>
-
-        <button class="button-game-against-human">
-            Игра на двоих
-        </button>
-
-        </div>
-            </div>
-        </div>
-        <div class="game-container">
-        <div class="logo-container">
+         </div>
+      </div>
+      <div class="game-container">
+         <div class="logo-container">
             <img class="logo" src="images/phrases/rails.png">
-        </div>
-        <div class="cones">
+         </div>
+         <div class="cones">
             <div class="cone-line">
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
             </div>
             <div class="cone-line">
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
             </div>
             <div class="cone-line">
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
             </div>
             <div class="cone-line">
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
             </div>
             <div class="cone-line">
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
-                <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
+               <div class="cone"></div>
             </div>
-        </div>
-        <button class="button-commit">
-            Первый игрок: cделать ход
-        </button>
-        <script src="js/logic.js"></script>
-        </div>        
-        <footer>
-            Иллюстрации авторства Jet A.D.
-        </footer>
-    </body>
-
+         </div>
+         <button class="button-commit">Первый игрок: cделать ход</button>
+         <script src="js/logic.js"></script>
+      </div>
+      <div class="game-result-container">
+         <div class="game-result-message">
+         </div>
+         <button class="button-replay">Заново</button>        
+      </div>
+      <footer>
+         Иллюстрации авторства Jet A.D.
+      </footer>
+   </body>
 </html>
-
 <!-- https://jsfiddle.net/6anaodr0/2/ -->

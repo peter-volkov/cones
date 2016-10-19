@@ -1,3 +1,5 @@
+$( document ).ready(function() {
+
 $(".cone-line").each(function() {
     $(this).prop('numberOfChosenCones', 0);
 });
@@ -120,20 +122,30 @@ commit = function() {
         }
     });
     if ($(".removed-cone").length == 24) {
+        finishGame();
+    };
+}
+
+getFinishGameMessage = function() {
         if (!isLastTurnMadeByFirstPlayer) {
             if (isGameAgainstComputer) {
-                $('.cones').html("Победа! Проигравший идёт за дровами.");
+                return "Победа! Проигравший идёт за дровами.";
             } else {
-                $('.cones').html("Победа первого игрока! Проигравший идёт за дровами.");
+                return "Победа первого игрока! Проигравший идёт за дровами.";
             }
         } else {
             if (isGameAgainstComputer) {
-                $('.cones').html("Поражение! Проигравший идёт за дровами.");
+                return "Поражение! Проигравший идёт за дровами.";
             } else {
-                $('.cones').html("Победа второго игрока! Проигравший идёт за дровами.");
+                return "Победа второго игрока! Проигравший идёт за дровами.";
             }
         }
-    };
+}
+
+finishGame = function() {
+    $('.game-result-message').html(getFinishGameMessage());
+    $('.game-container').hide();
+    $('.game-result-container').show();
 }
 
 $(".button-commit").on("click", function(event) {
@@ -168,6 +180,13 @@ changeLogo = function() {
 
 changeLogo();
 
+$(".button-replay").on("click", function(event) {
+    $('.game-result-container').hide();
+    $('.game-container').show();
+    //FIXME
+    location.reload();
+});
+
 $(".button-game-against-computer").on("click", function(event) {
     isGameAgainstComputer = true;
     $(".button-commit").html('Cделать ход');   
@@ -181,3 +200,5 @@ $(".button-game-against-human").on("click", function(event) {
     $('.game-container').show();
 });
 
+   
+});
