@@ -20,6 +20,7 @@ function getRandomElements(arr, n) {
 
 var isGameAgainstComputer = false;
 var isLastTurnMadeByFirstPlayer = false;
+var isGameFinished = false;
 
 doRandomTurn = function() {
     var randomLine = null;
@@ -143,9 +144,12 @@ getFinishGameMessage = function() {
 }
 
 finishGame = function() {
-    $('.game-result-message').html(getFinishGameMessage());
-    $('.game-container').hide();
-    $('.game-result-container').show();
+    if (!isGameFinished) {
+        isGameFinished = true;
+        $('.game-result-message').html(getFinishGameMessage());
+        $('.game-container').hide();
+        $('.game-result-container').show();
+    }
 }
 
 $(".button-commit").on("click", function(event) {
