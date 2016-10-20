@@ -197,6 +197,11 @@ changeLogo = function() {
         'images/phrases/angry_elves.png',
         'images/phrases/finger.png',
         'images/phrases/count.png',
+        'images/phrases/ultimatum_zen.png',
+        'images/phrases/three_legs_elf.png',
+        'images/phrases/bottom.png',
+        'images/phrases/poleno.png',
+        'images/phrases/elberetovka.png',
         'images/phrases/rails.png'
     ]
     randomImageIndex = Math.round(Math.random() * 100) % images.length;
