@@ -23,24 +23,45 @@ var isLastTurnMadeByFirstPlayer = false;
 var isGameFinished = false;
 
 doRandomTurn = function() {
-    var randomLine = null;
-    do {
-        randomLineIndex = Math.floor(Math.random() * 5); 
-        randomLine = $('.cone-line').eq(randomLineIndex);
-    } while (randomLine.hasClass('removed-line')); 
-
-    numberOfRemovedLines = $(".removed-line").length;
-    numberOfRemovedCones = $(".removed-cone").length;
-    numberOfRemainingCones = 5 - numberOfRemovedCones;
-    numberOfRemovedConesInLine = randomLine.find('.removed-cone').length;
-
-    numberOfConesToChose = Math.max(1, Math.floor(Math.random() * numberOfRemainingCones));
-    remainingCones = randomLine.find('.cone').not('.removed-cone').not('.chosen-cone');
-
-    var randomCones = getRandomElements(remainingCones, numberOfConesToChose);
+    remainingLines = $('.cone-line').not('.removed-line');    
+    numberOfRemainingLines = remainingLines.length;
+    randomRemainingLineIndex = Math.floor(Math.random() * numberOfRemainingLines); 
+    randomRemainingLine = remainingLines.eq(randomRemainingLineIndex);
     
-    for (i = 0; i < randomCones.length; i += 1) { 
-        coneClick($(randomCones[i]));
+    numberOfRemovedLines = 5 - numberOfRemainingLines;
+    numberOfRemovedConesTotal = $(".removed-cone").length;
+    numberOfRemaingConesTotal = 25 - numberOfRemovedConesTotal;
+
+    remainingConesInLine = randomRemainingLine.find('.cone').not('.removed-cone').not('.chosen-cone');
+    numberOfRemainingConesInLine = remainingConesInLine.length;
+    numberOfRemovedConesInLine = 5 - numberOfRemainingConesInLine
+
+    var conesToGet = null;
+    var numberOfConesToChooseInLine = Math.ceil(Math.random() * numberOfRemainingConesInLine);
+    if (numberOfRemainingLines == 1) {
+        numberOfConesToChooseInLine = Math.max(1, numberOfRemainingConesInLine - 1); 
+    } else if (numberOfRemainingLines == 2) {
+         remainingConesInFirstLine = remainingLines.eq(0).find('.cone').not('.removed-cone').not('.chosen-cone');
+         remainingConesInSecondLine = remainingLines.eq(1).find('.cone').not('.removed-cone').not('.chosen-cone');
+
+         if (remainingConesInFirstLine.length == 1) {
+             conesToGet = remainingConesInSecondLine;    
+         } else if (remainingConesInSecondLine.length == 1) {
+             conesToGet = remainingConesInFirstLine;    
+         } else if (remainingConesInFirstLine.length == 2) {
+             numberOfConesToChooseInLine = Math.max(1, remainingConesInSecondLine.length - 2);
+             remainingConesInLine = remainingConesInSecondLine;    
+         } else if (remainingConesInSecondLine.length == 2) {
+             numberOfConesToChooseInLine = Math.max(1, remainingConesInFirstLine.length - 2)
+             remainingConesInLine = remainingConesInFirstLine;
+         } 
+    }
+    var randomCones = getRandomElements(remainingConesInLine, numberOfConesToChooseInLine);
+    if (conesToGet == null) {
+        conesToGet = randomCones;
+    }
+    for (i = 0; i < conesToGet.length; i += 1) { 
+        coneClick($(conesToGet[i]));
     }
 
     timeout = 1000;
