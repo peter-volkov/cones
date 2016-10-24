@@ -227,6 +227,23 @@ $(document).ready(function() {
         };
     }
 
+
+    getFinishGameImageUrl = function() {
+        if (!isLastTurnMadeByFirstPlayer) {
+            if (isGameAgainstComputer) {
+                return "images/cone_juggler.png";
+            } else {
+                return "images/cone_juggler.png";
+            }
+        } else {
+            if (isGameAgainstComputer) {
+                return "images/forest_walk.png";
+            } else {
+                return "images/cone_juggler.png";
+            }
+        }
+    }
+
     getFinishGameMessage = function() {
         if (!isLastTurnMadeByFirstPlayer) {
             if (isGameAgainstComputer) {
@@ -246,6 +263,8 @@ $(document).ready(function() {
     finishGame = function() {
         if (!isGameFinished) {
             isGameFinished = true;
+
+            $('.game-result-image').prop('src', getFinishGameImageUrl());
             $('.game-result-message').html(getFinishGameMessage());
             $('.game-container').hide();
             $('.game-result-container').show();
@@ -315,13 +334,26 @@ $(document).ready(function() {
 
         $('.game-result-container').hide();
         $('.game-container').show();
+
+        if (isGameAgainstComputer) {
+            chooseFirstPlayer();
+        }
     });
+    
+    chooseFirstPlayer = function() {
+        coinFlip = Math.floor(Math.random() * 2);
+        if (coinFlip) {
+            isLastTurnMadeByFirstPlayer = true;
+            doComputerPlayerTurn();
+        }       
+    }
 
     $(".button-game-against-computer").on("click", function(event) {
         isGameAgainstComputer = true;
         $(".button-commit").html('Cделать ход');
         $('.start-container').hide();
         $('.game-container').show();
+        chooseFirstPlayer();
     });
 
     $(".button-game-against-human").on("click", function(event) {
