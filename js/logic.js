@@ -4,16 +4,19 @@ $(document).ready(function() {
         $(this).prop('numberOfChosenCones', 0);
     });
 
-    function getRandomElements(arr, n) {
-        var result = new Array(n),
-            len = arr.length,
-            taken = new Array(len);
-        if (n > len)
-            throw new RangeError("getRandom: more elements taken than available");
-        while (n--) {
-            var x = Math.floor(Math.random() * len);
-            result[n] = arr[x in taken ? taken[x] : x];
-            taken[x] = --len;
+    function getRandomElements(array, numberOfElementsToGet) {
+        if (!numberOfElementsToGet || numberOfElementsToGet > array.length)
+            throw new RangeError("getRandomElements: invalid numberOfElementsToGet argument");            
+        result = []
+        takenIndices = new Set();
+        arrayLength = array.length;  
+        while (result.length != numberOfElementsToGet) {
+            var randomIndex;          
+            do  {
+                randomIndex = Math.floor(Math.random() * array.length);
+            } while (takenIndices.has(randomIndex));
+            takenIndices.add(randomIndex);
+            result.push(array[randomIndex])
         }
         return result;
     }
@@ -36,7 +39,9 @@ $(document).ready(function() {
         numberOfRemainingLines = remainingLines.length;
 
         if (numberOfRemainingLines == 1) {
-            numberOfConesToChooseInLine = Math.max(1, numberOfRemainingConesInLine - 1);
+            remainingConesInLine = remainingLines.eq(0).find('.cone').not('.removed-cone').not('.chosen-cone');
+            numberOfRemainingConesInLine = remainingConesInLine.length;
+            return getRandomConesFromLine(remainingConesInLine, numberOfRemainingConesInLine - 1);
 
         } else if (numberOfRemainingLines == 2) {
             remainingConesInFirstLine = remainingLines.eq(0).find('.cone').not('.removed-cone').not('.chosen-cone');
@@ -48,13 +53,18 @@ $(document).ready(function() {
             } else if (remainingConesInSecondLine.length == 1) {
                 return remainingConesInFirstLine;
 
-                // leave same number of cones in both lines
+            // x, x+ (x>1) -> leave same number of cones in both lines
             } else if (remainingConesInFirstLine.length > remainingConesInSecondLine.length) {
                 numberOfConesToChooseInLine = Math.max(1, remainingConesInFirstLine.length - remainingConesInSecondLine.length);
                 return getRandomConesFromLine(remainingConesInFirstLine, numberOfConesToChooseInLine)
             } else if (remainingConesInFirstLine.length < remainingConesInSecondLine.length) {
                 numberOfConesToChooseInLine = Math.max(1, remainingConesInSecondLine.length - remainingConesInFirstLine.length);
                 return getRandomConesFromLine(remainingConesInSecondLine, numberOfConesToChooseInLine)
+            }
+
+            // x,x -> remove whole line
+            if (remainingConesInFirstLine.length == remainingConesInSecondLine.length) { 
+                return getRandomLine(remainingLines);
             }
 
         } else if (numberOfRemainingLines == 3) {
@@ -119,8 +129,9 @@ $(document).ready(function() {
                 }
 
             }
+        } else if (numberOfRemainingLines == 4) {
+            //bad are 1,1,5,5 1,1,2,2 1,1,3,3 1,1,2,4 1,2,2,2 ... 
         }
-
     }
 
     doComputerPlayerTurn = function() {
@@ -152,21 +163,19 @@ $(document).ready(function() {
     }
 
     coneClick = function(cone) {
-
         var thisLine = cone.parent();
-        numberOfCHosenCones = thisLine.prop('numberOfChosenCones');
+        numberOfChosenCones = thisLine.prop('numberOfChosenCones');
 
         if (!cone.hasClass('chosen-cone')) {
             //check to avoid removing last cone
             if (getRemovedAndChosenConesSum() != 24) {
                 cone.addClass('chosen-cone');
-                thisLine.prop('numberOfChosenCones', numberOfCHosenCones + 1);
+                thisLine.prop('numberOfChosenCones', numberOfChosenCones + 1);
             }
         } else {
             cone.removeClass('chosen-cone');
-            thisLine.prop('numberOfChosenCones', numberOfCHosenCones - 1);
+            thisLine.prop('numberOfChosenCones', numberOfChosenCones - 1);
         }
-
 
         //deselect other lines and their cones if they are chosen
         $(".cone-line.chosen-line").each(function() {
@@ -176,12 +185,12 @@ $(document).ready(function() {
                     if ($(this).hasClass('chosen-cone')) {
                         $(this).removeClass('chosen-cone');
                         $(this).parent().prop('numberOfChosenCones',
-                            Math.max(0, numberOfCHosenCones - 1));
+                            Math.max(0, numberOfChosenCones - 1));
                     }
                 });
             }
             if (cone.prop('numberOfChosenCones') == 0) {
-                if (cone.hasClass('chosen-line')) {
+                if (cone.hasClass('chosen-line')) {                    
                     cone.removeClass('chosen-line')
                     $(".button-commit").css('visibility', 'hidden');
                 }
