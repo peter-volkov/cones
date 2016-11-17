@@ -278,6 +278,11 @@ $(document).ready(function() {
             $('.game-container').hide();
             $('.game-result-container').show();
         }
+        if (window.hasOwnProperty('yaCounter40344725')) {
+            yaCounter40344725.reachGoal('.game-result-message', function () {
+                console.log('goal submitted');
+            }, this);
+        }
     }
 
     $(".button-commit").on("click", function(event) {
@@ -347,6 +352,13 @@ $(document).ready(function() {
         if (isGameAgainstComputer) {
             chooseFirstPlayer();
         }
+
+        if (window.hasOwnProperty('yaCounter40344725')) {
+            yaCounter40344725.reachGoal('.button-replay', function () {
+                console.log('goal submitted');
+            }, this);
+        }
+
     });
     
     chooseFirstPlayer = function() {
@@ -363,12 +375,22 @@ $(document).ready(function() {
         $('.start-container').hide();
         $('.game-container').show();
         chooseFirstPlayer();
+        if (window.hasOwnProperty('yaCounter40344725')) {
+            yaCounter40344725.reachGoal('.button-game-against-computer', function () {
+                console.log('goal submitted');
+            }, this);
+        }
     });
 
     $(".button-game-against-human").on("click", function(event) {
         isGameAgainstComputer = false;
         $('.start-container').hide();
         $('.game-container').show();
+        if (window.hasOwnProperty('yaCounter40344725')) {
+            yaCounter40344725.reachGoal('.button-game-against-human', function () {
+                console.log('goal submitted');
+            }, this);
+        }
     });
 
 
