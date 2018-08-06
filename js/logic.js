@@ -64,7 +64,7 @@ $(document).ready(function() {
 
             // x,x -> remove whole line
             if (remainingConesInFirstLine.length == remainingConesInSecondLine.length) { 
-                return getRandomLine(remainingLines);
+                return getRandomConesFromLine(remainingConesInFirstLine, remainingConesInFirstLine.length)
             }
 
         } else if (numberOfRemainingLines == 3) {
